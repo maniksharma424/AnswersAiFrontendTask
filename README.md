@@ -1,5 +1,5 @@
 # AnswersAi - Frontend Engineer Take-Home Assignment
-Live at - https://answers-ai-frontend-task.vercel.app/dashboard
+Live at - https://answers-ai-frontend-task.vercel.app
 
 ##  Screens Implemented
 
