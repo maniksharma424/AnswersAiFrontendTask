@@ -43,7 +43,7 @@ export const VariablePanel: React.FC = () => {
       />
 
       <div
-        className={`fixed w-1/2 top-0 right-0 bg-black border-l border-border_primary z-50 transform transition-transform duration-300 ease-out p-6 flex flex-col h-full space-y-6 ${
+        className={`fixed md:w-1/2 w-full overflow-auto top-0 right-0 bg-black border-l border-border_primary z-50 transform transition-transform duration-300 ease-out p-6 flex flex-col h-full space-y-6 ${
           isVariablePanelOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

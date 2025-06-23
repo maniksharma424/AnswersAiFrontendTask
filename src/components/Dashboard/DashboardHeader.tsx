@@ -5,10 +5,12 @@ import Button from "../Button";
 const DashboardHeader = () => {
   const { toggleVariablePanel } = useAppContext();
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex sm:flex-row flex-col sm:items-center sm:gap-0 gap-4 justify-between ">
       <div className="flex items-center space-x-3">
         <Zap />
-        <h1 className="text-2xl font-bold text-white font-robert">Charging Station</h1>
+        <h1 className="text-2xl font-bold text-white font-robert">
+          Charging Station
+        </h1>
       </div>
 
       <div className="flex items-center space-x-3">

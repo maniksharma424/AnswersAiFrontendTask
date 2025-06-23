@@ -9,11 +9,9 @@ import {
   Settings,
 } from "../../icons/Icons";
 
-interface SidebarProps {
-  className?: string;
-}
+interface SidebarProps {}
 
-const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
+const Sidebar: React.FC<SidebarProps> = ({}) => {
   const menuItems = [
     { icon: <Home />, active: false },
     { icon: <Notifications />, active: true },
@@ -30,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = "" }) => {
         justifyContent: "space-between",
         alignItems: "center",
       }}
-      className={`  ${className}  justify-between  items-center  h-full py-5`}
+      className={`  w-full justify-between  items-center  h-full py-5`}
     >
       <nav className="h-fit w-full flex flex-col justify-center items-center space-y-8  ">
         <Burger />

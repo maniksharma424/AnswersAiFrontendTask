@@ -250,6 +250,7 @@ export const Plus = () => (
     />
   </svg>
 );
+
 export const PlusSm = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -299,6 +300,17 @@ export const Cross = () => (
     xmlns="http://www.w3.org/2000/svg"
     width="36"
     height="36"
+    viewBox="0 0 36 36"
+    fill="none"
+  >
+    <path d="M11 11L25 25M11 25L25 11" stroke="white" stroke-width="2" />
+  </svg>
+);
+export const CrossSm = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
     viewBox="0 0 36 36"
     fill="none"
   >

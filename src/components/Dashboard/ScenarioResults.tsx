@@ -29,7 +29,7 @@ const ScenarioResults: React.FC = () => {
         {results.map((result, index) => (
           <div
             key={index}
-            className="border-[0.5px] border-text_primary text-text_primary rounded-lg bg-[#CCFF0005]  p-3 flex items-center justify-between px-4 font-normal"
+            className="border-[0.5px] border-text_primary text-text_primary rounded-lg bg-[#CCFF0005]  p-2 flex items-center justify-between px-4 font-normal md:text-sm text-xs"
           >
             <p className="leading-relaxed flex-1">{result.text}</p>
             <button className="ml-4 p-1  rounded transition-colors duration-200">

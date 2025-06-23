@@ -147,7 +147,10 @@ const ChartVisualization: React.FC = () => {
               stepSize: 20000,
               color: "#FFFFFF", // White
               font: { size: 12 },
-              callback: (value: number) => `$${value / 1000}K `,
+              callback: (tickValue: string | number) => {
+                const num = Number(tickValue); // Ensure it's treated as a number
+                return `$${num / 1000}K`;
+              },
               padding: 10,
             },
 
@@ -202,11 +205,11 @@ const ChartVisualization: React.FC = () => {
 
             if (!points || points.length < 2) return;
 
-            const step = 30; // spacing in px between each lemon line
+            const step = 25; // spacing in px between each lemon line
 
             ctx.save();
             ctx.strokeStyle = "#8AA14F33"; // Lemon
-            ctx.lineWidth = 2.3;
+            ctx.lineWidth = 2;
 
             // Loop across entire width
             for (let x = left; x <= right; x += step) {
@@ -286,7 +289,7 @@ const ChartVisualization: React.FC = () => {
   }, []);
 
   return (
-    <div className=" bg-bg_primary_light rounded-xl border border-border_primary p-8 relative h-full flex flex-col">
+    <div className=" bg-bg_primary_light rounded-xl border border-border_primary md:p-8  relative h-full flex flex-col">
       <div className="flex items-center justify-end">
         <div className=" bg-bg_primary border border-border_primary rounded-md px-4 py-2 text-sm text-[#FCFCFC] focus:outline-none flex items-center gap-4">
           Unsatisfied Demand %
