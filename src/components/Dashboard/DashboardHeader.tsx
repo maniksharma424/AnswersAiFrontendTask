@@ -8,7 +8,7 @@ const DashboardHeader = () => {
     <div className="flex items-center justify-between ">
       <div className="flex items-center space-x-3">
         <Zap />
-        <h1 className="text-2xl font-bold text-white">Charging Station</h1>
+        <h1 className="text-2xl font-bold text-white font-robert">Charging Station</h1>
       </div>
 
       <div className="flex items-center space-x-3">

@@ -6,11 +6,11 @@ const Header: React.FC = () => {
     <header className=" px-6 py-5 text-base font-normal text-white ">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
-          <nav className="flex items-center space-x-1">
+          <nav className="flex items-center space-x-1 font-robert">
             <button className="px-4 py-2 bg-bg_primary  rounded-lg border border-border_primary  leading-5">
               Charging Stations
             </button>
-            <button className="px-4 py-2  leading-5    transition-colors duration-200">
+            <button className="px-4 py-2  leading-5    transition-colors duration-200 ">
               Fleet Sizing
             </button>
             <button className="px-4 py-2 leading-5     transition-colors duration-200">

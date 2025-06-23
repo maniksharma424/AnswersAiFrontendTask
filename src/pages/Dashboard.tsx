@@ -31,7 +31,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 sm:p-6 p-4 space-y-12 overflow-y-auto sm:border-l border-t border-border_primary sm:rounded-tl-md bg-bg_primary flex flex-col">
+    <div className="flex-1 sm:p-6 p-4 space-y-8 overflow-y-auto sm:border-l border-t border-border_primary sm:rounded-tl-md bg-bg_primary flex flex-col">
       <DashboardHeader />
 
       <ScenarioResults />
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 flex-1">
         {/* Chart Section */}
         <div className="xl:col-span-3  space-y-4 h-full flex flex-col">
-          <h3 className="text-2xl leading-5 font-semibold text-white">
+          <h3 className="text-2xl leading-5 font-semibold text-white font-robert">
             Graphs
           </h3>
           <div className=" flex-1 w-full">
@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
         {/* KPI Section */}
         <div className="space-y-4 xl:col-span-2  flex flex-col">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl leading-5 font-semibold text-white">
+            <h3 className="text-2xl leading-5 font-semibold text-white font-robert">
               Key Performance Indicators
             </h3>
             <Button iconRight={<Plus />} className=" text-sm bg-transparent py-1">Variables</Button>

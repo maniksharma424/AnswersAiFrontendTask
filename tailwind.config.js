@@ -3,6 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        robert: ["Robert", "sans-serif"],
+        inter: ["Inter", "sans-serif"], // google font
+      },
       colors: {
         bg_primary: "#161618",
         bg_primary_light: "#222324",

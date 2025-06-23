@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
   ...buttonProps
 }) => {
   const baseClasses =
-    "bg-bg_primary_light border border-border_primary p-2 rounded-lg text-white text-sm font-normal flex items-center gap-2";
+    "bg-bg_primary_light border border-border_primary p-2 rounded-lg text-white text-sm font-normal flex items-center gap-2 font-robert";
 ;
 
   return (

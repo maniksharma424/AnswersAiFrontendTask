@@ -15,10 +15,13 @@ const ScenarioResults: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2 text-text_secondary">
           <AIStars />
-          <h2 className="  text-xl font-semibold ">Best Scenario Results</h2>
+          <h2 className="  text-xl font-semibold font-robert ">
+            Best Scenario Results
+          </h2>
         </div>
-        <button className=" border border-text_primary rounded-[20px] p-2 px-3">
-          <Chevrron />
+        <button className=" border border-text_primary rounded-[20px] p-1 px-2">
+
+        <Chevrron />
         </button>
       </div>
 

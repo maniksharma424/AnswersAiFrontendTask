@@ -22,7 +22,7 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, description }) => {
         </div>
       </div>
 
-      <div className="text-3xl font-bold text-white mb-2">{value}</div>
+      <div className="text-3xl font-bold text-white mb-2 font-robert">{value}</div>
     </div>
   );
 };
