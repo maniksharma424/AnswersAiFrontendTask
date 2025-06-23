@@ -1,11 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Layout/Sidebar";
-import Header from "./components/Layout/Header";
 
 import "../src/assets/fonts/fonts.css";
 
 import Dashboard from "./pages/Dashboard";
-import { VariablePanel } from "./components/VariablePanel/VariablePanel";
+
 import AppProvider from "./provider/appProvider";
 import Login from "./pages/Login";
 

@@ -77,18 +77,13 @@ const ChartVisualization: React.FC = () => {
             label: "Value",
             data: chartData.map((d) => d.value),
             borderColor: "#DCFF7FFD",
-            backgroundColor: "rgba(0, 0, 0, 0)",
             borderWidth: 3,
             tension: 0,
             pointRadius: 0,
-            pointHoverRadius: 8,
-            pointHoverBorderWidth: 3,
-            pointHoverBorderColor: "#1f2937",
-            pointHoverBackgroundColor: "#DCFF7FFD",
-            fill: true,
           },
         ],
       },
+
       options: {
         responsive: true,
         maintainAspectRatio: false,
@@ -106,11 +101,15 @@ const ChartVisualization: React.FC = () => {
               if (tooltipModel.opacity === 0) {
                 setHoveredDataPoint(null);
                 setTooltipPosition(null);
+                if (chartRef.current) {
+                  chartRef.current.update();
+                }
                 return;
               }
 
               const dataPoint = tooltipModel.dataPoints?.[0];
               if (dataPoint) {
+                console.log("✅ Tooltip active at index", dataPoint.dataIndex);
                 setHoveredDataPoint(chartData[dataPoint.dataIndex]);
                 setTooltipPosition({
                   x: dataPoint.element.x,
@@ -127,49 +126,54 @@ const ChartVisualization: React.FC = () => {
           }
         },
         scales: {
-          // x: {
-          //   grid: {
-          //     display: true,
-          //     drawTicks: false,
-          //     color: (context) => {
-          //       const y = chartRef.current?.scales.y;
-          //       if (!y) return "transparent";
-          //       const isVertical = context.tick?.value !== undefined;
-          //       return isVertical ? "#DCFF7FFD" : "transparent";
-          //     },
-          //     lineWidth: 1,
-          //   },
-          //   ticks: {
-          //     color: "#9CA3AF",
-          //     font: { size: 12 },
-          //     padding: 10,
-          //   },
-          //   border: { display: false },
-          // },
+          x: {
+            grid: {
+              color: "#222324",
+              lineWidth: 0.2,
+            },
+            ticks: {
+              color: "#FFFFFF", // White
+
+              font: { size: 12 },
+              padding: 10,
+            },
+            border: { display: true, color: "#525252", width: 1.5 },
+          },
           y: {
             min: 0,
             max: 100000,
+
             ticks: {
               stepSize: 20000,
-              color: "#9CA3AF",
+              color: "#FFFFFF", // White
               font: { size: 12 },
               callback: (value: number) => `$${value / 1000}K `,
               padding: 10,
             },
+
             grid: {
-              color: "#374151",
-              lineWidth: 0.5,
+              drawTicks: false,
+              color: "#525252",
+              lineWidth: 0.3,
             },
-            border: { display: false },
+            border: { display: true, color: "#525252", width: 1.5 },
           },
         },
       },
       plugins: [
         {
           id: "hoverLine",
-          afterDraw: (chart) => {
+          afterDatasetsDraw: (chart) => {
             const tooltip = chart.tooltip;
-            if (!tooltip?.dataPoints?.length) return;
+
+            // ✅ Explicitly check both conditions
+            if (
+              !tooltip ||
+              tooltip.opacity === 0 ||
+              !tooltip.dataPoints?.length
+            ) {
+              return; // Don't draw dashed line if tooltip is hidden
+            }
 
             const ctx = chart.ctx;
             const point = tooltip.dataPoints[0].element;
@@ -181,12 +185,92 @@ const ChartVisualization: React.FC = () => {
             ctx.beginPath();
             ctx.setLineDash([5, 5]);
             ctx.strokeStyle = "#DCFF7FFD";
-            ctx.lineWidth = 1;
-
-            // Draw only from point.y to bottom
-            ctx.moveTo(x, y);
+            ctx.lineWidth = 2.5;
+            ctx.moveTo(x, y + 10);
             ctx.lineTo(x, bottomY);
             ctx.stroke();
+            ctx.restore();
+          },
+        },
+        {
+          id: "underGraphVerticalLinesFull",
+          beforeDatasetsDraw(chart) {
+            const ctx = chart.ctx;
+            const { bottom, top, left, right } = chart.chartArea;
+            const meta = chart.getDatasetMeta(0);
+            const points = meta.data;
+
+            if (!points || points.length < 2) return;
+
+            const step = 30; // spacing in px between each lemon line
+
+            ctx.save();
+            ctx.strokeStyle = "#8AA14F33"; // Lemon
+            ctx.lineWidth = 2.3;
+
+            // Loop across entire width
+            for (let x = left; x <= right; x += step) {
+              // Find two points in the dataset this x lies between
+              for (let i = 0; i < points.length - 1; i++) {
+                const p1 = points[i];
+                const p2 = points[i + 1];
+
+                if (x >= p1.x && x <= p2.x) {
+                  const t = (x - p1.x) / (p2.x - p1.x); // interpolation factor
+                  const y = p1.y + t * (p2.y - p1.y);
+
+                  // Draw vertical line from bottom up to interpolated y
+                  ctx.beginPath();
+                  ctx.moveTo(x, bottom);
+                  ctx.lineTo(x, y);
+                  ctx.stroke();
+                  break;
+                }
+              }
+            }
+
+            ctx.restore();
+          },
+        },
+        {
+          id: "glowOnHover",
+          afterDatasetsDraw(chart) {
+            const tooltip = chart.tooltip;
+            if (
+              !tooltip ||
+              tooltip.opacity === 0 ||
+              !tooltip.dataPoints?.length
+            )
+              return;
+
+            const ctx = chart.ctx;
+            const point = tooltip.dataPoints[0].element;
+
+            const glowColor = "#DCFF7F"; // Outer glow
+            const innerColor = "#222324"; // Inner black dot
+            const radius = 6;
+            const borderWidth = 3;
+
+            ctx.save();
+
+            // 🟡 Glowing aura
+            ctx.shadowColor = glowColor;
+            ctx.shadowBlur = 25;
+
+            // 🟢 Outer lemon circle (border)
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, radius + borderWidth / 2, 0, Math.PI * 2);
+            ctx.strokeStyle = glowColor;
+            ctx.lineWidth = borderWidth;
+            ctx.stroke();
+
+            // ⚫ Inner black circle
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = innerColor;
+            ctx.fill();
+
             ctx.restore();
           },
         },
@@ -220,7 +304,7 @@ const ChartVisualization: React.FC = () => {
             className="absolute bg-bg_primary_light backdrop-blur-sm border  border-border_primary rounded-lg p-4 shadow-xl z-10 transition-opacity duration-200 min-w-fit space-y-3"
             style={{
               left: tooltipPosition.x - 100,
-              top: tooltipPosition.y - 100,
+              top: tooltipPosition.y - 120,
 
               pointerEvents: "none",
             }}
