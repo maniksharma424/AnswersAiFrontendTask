@@ -12,18 +12,9 @@ import {
   signInWithPopup,
   onAuthStateChanged,
 } from "firebase/auth";
+import { Errors, FormData } from "../types";
 
-// Define interfaces for form data and errors
-interface FormData {
-  email: string;
-  password: string;
-}
 
-interface Errors {
-  email?: string;
-  password?: string;
-  submit?: string;
-}
 
 // Firebase configuration
 const firebaseConfig = {
