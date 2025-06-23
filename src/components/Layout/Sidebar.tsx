@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Home,
   Burger,
@@ -9,39 +9,55 @@ import {
   Settings,
 } from "../../icons/Icons";
 
-interface SidebarProps {}
+const Sidebar: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState(1); // Default active item
+  const navRef = useRef<HTMLDivElement>(null);
+  const [indicatorTop, setIndicatorTop] = useState(0);
 
-const Sidebar: React.FC<SidebarProps> = ({}) => {
   const menuItems = [
-    { icon: <Home />, active: false },
-    { icon: <Notifications />, active: true },
-    { icon: <CheckList />, active: false },
-    { icon: <Cloud />, active: false },
-    { icon: <Settings />, active: false },
+    <Home />,
+    <Notifications />,
+    <CheckList />,
+    <Cloud />,
+    <Settings />,
   ];
 
+  useEffect(() => {
+    if (navRef.current) {
+      const buttons = navRef.current.querySelectorAll("button");
+      const activeButton = buttons[activeIndex];
+      if (activeButton) {
+        setIndicatorTop((activeButton as HTMLElement).offsetTop-28);
+      }
+    }
+  }, [activeIndex]);
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-      className={`  w-full justify-between  items-center  h-full py-5`}
-    >
-      <nav className="h-fit w-full flex flex-col justify-center items-center space-y-8  ">
+    <div className="flex flex-col justify-between items-center w-full h-full py-8">
+      <nav
+        ref={navRef}
+        className="relative h-fit w-full flex flex-col justify-center items-center space-y-7"
+      >
         <Burger />
-        {menuItems.map((item, index) => (
+
+        {/* Active sliding indicator */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 w-[44px] h-[44px] rounded-xl bg-bg_primary_light border border-border_primary transition-all duration-300 z-0"
+          style={{ top: `${indicatorTop}px` }}
+        />
+
+        {/* Icon Buttons */}
+        {menuItems.map((icon, index) => (
           <button
             key={index}
-            className={` p-1.5 flex items-center justify-center transition-colors duration-200 ${
-              item.active
-                ? " text-white bg-bg_primary_light border border-border_primary rounded-lg"
-                : "border border-transparent rounded-lg text-[#858882]"
+            onClick={() => setActiveIndex(index)}
+            className={`relative z-10 w-[44px] h-[44px] flex items-center justify-center transition-colors duration-200 ${
+              activeIndex === index
+                ? "text-white"
+                : "text-[#858882] hover:text-white"
             }`}
           >
-            {item?.icon}
+            {icon}
           </button>
         ))}
       </nav>

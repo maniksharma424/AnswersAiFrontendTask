@@ -16,6 +16,7 @@ import {
   TooltipModel,
 } from "chart.js";
 import { ChartChevron, ChevronDown, QuestionMark } from "../../icons/Icons";
+import useIsMobile from "../../hooks/useIsmobile";
 
 // Register Chart.js components
 ChartJS.register(
@@ -51,6 +52,7 @@ const chartData: ChartDataPoint[] = [
 const ChartVisualization: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<ChartJS<"line"> | null>(null);
+  const isMpbile = useIsMobile();
   const [hoveredDataPoint, setHoveredDataPoint] =
     useState<ChartDataPoint | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<{
@@ -144,6 +146,7 @@ const ChartVisualization: React.FC = () => {
             max: 100000,
 
             ticks: {
+              display: isMpbile ? false : true,
               stepSize: 20000,
               color: "#FFFFFF", // White
               font: { size: 12 },
@@ -159,7 +162,11 @@ const ChartVisualization: React.FC = () => {
               color: "#525252",
               lineWidth: 0.3,
             },
-            border: { display: true, color: "#525252", width: 1.5 },
+            border: {
+              display: isMpbile ? false : true,
+              color: "#525252",
+              width: 1.5,
+            },
           },
         },
       },
@@ -289,9 +296,9 @@ const ChartVisualization: React.FC = () => {
   }, []);
 
   return (
-    <div className=" bg-bg_primary_light rounded-xl border border-border_primary md:p-8  relative h-full flex flex-col">
-      <div className="flex items-center justify-end">
-        <div className=" bg-bg_primary border border-border_primary rounded-md px-4 py-2 text-sm text-[#FCFCFC] focus:outline-none flex items-center gap-4">
+    <div className=" sm:bg-bg_primary_light sm:rounded-xl sm:border sm:border-border_primary md:p-8 sm:p-4  relative h-full flex flex-col">
+      <div className="sm:flex hidden items-center justify-end  relative">
+        <div className=" bg-bg_primary border border-border_primary rounded-md px-2.5 py-1.5 text-xs text-[#FCFCFC] focus:outline-none flex relative bottom-3 right-4  items-center gap-4">
           Unsatisfied Demand %
           <button>
             <ChevronDown />
@@ -300,23 +307,23 @@ const ChartVisualization: React.FC = () => {
       </div>
 
       <div className="relative flex-1 ">
-        <canvas ref={canvasRef} className=" min-h-full" />
+        <canvas ref={canvasRef} className=" sm:min-h-full min-h-[350px]" />
 
         {hoveredDataPoint && tooltipPosition && (
           <div
-            className="absolute bg-bg_primary_light backdrop-blur-sm border  border-border_primary rounded-lg p-4 shadow-xl z-10 transition-opacity duration-200 min-w-fit space-y-3"
+            className="absolute bg-bg_primary_light backdrop-blur-sm border  border-border_primary rounded-lg sm:p-4 p-2 shadow-xl z-10 transition-opacity duration-200 min-w-fit sm:space-y-3 space-y-1"
             style={{
-              left: tooltipPosition.x - 100,
-              top: tooltipPosition.y - 120,
+              left: isMpbile ? tooltipPosition.x - 80 : tooltipPosition.x - 100,
+              top: isMpbile ? tooltipPosition.y - 80 : tooltipPosition.y - 120,
 
               pointerEvents: "none",
             }}
           >
-            <div className="text-2xl font-bold text-white mb-1 flex justify-between items-center">
+            <div className="sm:text-2xl text-base sm:font-bold font-normal text-white mb-1 flex justify-between items-center">
               ${(hoveredDataPoint.value / 1000).toFixed(1)}k
               <QuestionMark />
             </div>
-            <div className="flex items-center gap-2 text-base  text-[#878787]">
+            <div className="flex items-center gap-2 sm:text-base text-xs  text-[#878787]">
               <div className=" bg-[#C8E97233] p-[3px] rounded-full border border-text_primary  ">
                 <ChartChevron />
               </div>

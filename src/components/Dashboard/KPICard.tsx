@@ -9,7 +9,7 @@ interface KPICardProps {
 
 const KPICard: React.FC<KPICardProps> = ({ title, value, description }) => {
   return (
-    <div className=" p-4 bg-bg_primary_light border border-border_primary rounded-md flex flex-col justify-between md:items-end items-start">
+    <div className=" sm:p-4 p-3 bg-bg_primary_light border border-border_primary rounded-md flex flex-col justify-between md:items-end items-start gap-2">
       <div className="w-full">
         <div className="flex w-ful items-start justify-between relative">
           <div className=" space-y-2">
@@ -26,7 +26,7 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, description }) => {
         </div>
       </div>
 
-      <div className="text-3xl font-bold text-white mb-2 font-robert">
+      <div className="sm:text-3xl text-2xl font-bold text-white mb-2 font-robert">
         {value}
       </div>
     </div>

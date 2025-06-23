@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Search, Cross, Burger, CrossSm } from "../../icons/Icons";
-import Sidebar from "../Layout/Sidebar";
+import { Search, Burger, CrossSm } from "../../icons/Icons";
+
+import MobileSidebar from "../MobileSidebar";
 
 const Header: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -11,7 +12,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="sm:px-6 sm:py-5 px-4 py-3 text-base font-normal text-white relative z-50">
+      <header className="sm:px-6 sm:py-5 px-4 py-3 text-base font-normal text-white relative">
         <div className="flex items-center justify-between">
           {/* Left section: Burger or Tab */}
           <div className="flex items-center space-x-6">
@@ -87,12 +88,7 @@ const Header: React.FC = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex justify-end p-4">
-          <button onClick={() => setSidebarOpen(false)}>
-            <Cross />
-          </button>
-        </div>
-        <Sidebar />
+        <MobileSidebar />
       </div>
 
       {/* Backdrop when sidebar is open */}
