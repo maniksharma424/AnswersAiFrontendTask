@@ -91,3 +91,27 @@ export const initialVariables: Variable[] = [
       "Evaluates how effectively resources (vehicles, drivers, maintenance) are distributed across service areas. Higher scores indicate better resource utilization.",
   },
 ];
+
+
+export const kpiData = [
+  {
+    title: "Infrastructure Units",
+    value: "€421.07",
+    description: "This describes variable two and what the shown data means.",
+  },
+  {
+    title: "Charging Growth",
+    value: "33.07",
+    description: "This describes variable two and what the shown data means.",
+  },
+  {
+    title: "Localization change",
+    value: "21.9%",
+    description: "This describes variable two and what the shown data means.",
+  },
+  {
+    title: "Fleet growth",
+    value: "7.03%",
+    description: "This describes variable two and what the shown data means.",
+  },
+];

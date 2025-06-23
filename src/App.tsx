@@ -7,26 +7,17 @@ import "../src/assets/fonts/fonts.css";
 import Dashboard from "./pages/Dashboard";
 import { VariablePanel } from "./components/VariablePanel/VariablePanel";
 import AppProvider from "./provider/appProvider";
-
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Router>
       <AppProvider>
         <div className="h-[100svh] w-full bg-black flex font-inter">
-          <Sidebar className="w-20 sm:block hidden h-full" />
-
-          <div className="flex-1 flex flex-col">
-            <Header />
-
-            <main className="flex-1 flex">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-              </Routes>
-            </main>
-          </div>
-
-          <VariablePanel />
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Login />} />
+          </Routes>
         </div>
       </AppProvider>
     </Router>
