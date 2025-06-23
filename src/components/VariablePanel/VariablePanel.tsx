@@ -59,14 +59,14 @@ export const VariablePanel: React.FC = () => {
             <Search />
             <input
               type="text"
-              placeholder="Control"
+              placeholder="Search variables"
               className="rounded-lg text-sm w-full placeholder:text-white bg-transparent focus:outline-none"
             />
           </div>
           <Button className="px-4" iconLeft={<AIStars />}>
             Autofill
           </Button>
-          <button className="text-text_primary gradient-border-button flex items-center gap-2 border-[1px] px-4 py-1.5 rounded-md  border-text_primary bg-[#23291E]  rerun">
+          <button className="text-text_primary gradient-border-button flex items-center gap-2 border-[1px] px-4 py-1.5 rounded-md  border-text_primary bg-[#23291E]  rerun active:scale-95">
             <Rerun /> Rerun
           </button>
         </div>
@@ -89,16 +89,20 @@ export const VariablePanel: React.FC = () => {
             ))}
 
             <div
-              key={descriptionToShow ? "show" : "hide"} // force re-render for animation trigger
-              className={`bg-bg_primary_light p-5 space-y-3 border-t border-border_primary rounded-b-md ${
-                descriptionToShow ? "block animate-fadeInUp" : "hidden animate-fadeOutDown"
-              }`}
+              className={`transition-all duration-300 ease-in-out transform
+              ${
+                descriptionToShow
+                  ? "opacity-100 translate-y-0 pointer-events-auto p-5 space-y-3"
+                  : "opacity-0 translate-y-2 pointer-events-none h-0"
+              }
+              bg-bg_primary_light   border-t border-border_primary rounded-b-md
+            `}
             >
               <div className="flex items-center gap-3">
                 <h1 className="text-white">{selectedVariable?.name}</h1>
                 <Info />
               </div>
-              <p className="text-sm text-[#BBBBBB]">{descriptionToShow}</p>
+              <p className="text-sm text-text_light">{descriptionToShow}</p>
             </div>
           </div>
         </div>
@@ -115,8 +119,8 @@ export const VariablePanel: React.FC = () => {
 const VariableTag: React.FC<{ variable: Variable }> = ({ variable }) => {
   const { updateVariable, setSelectedVariable } = useAppContext();
   const [showDescription, setShowDescription] = useState(false);
-  const [hoverTimer, setHoverTimer] = useState<number | null>(null);
-  const [hideTimer, setHideTimer] = useState<number | null>(null);
+  const [hoverTimer, setHoverTimer] = useState<NodeJS.Timeout | null>(null);
+  const [hideTimer, setHideTimer] = useState<NodeJS.Timeout | null>(null);
 
   const handleClick = () => {
     updateVariable(variable.id, { selected: !variable.selected });

@@ -16,7 +16,7 @@ const KPICard: React.FC<KPICardProps> = ({ title, value, description }) => {
             <h3 className="text-base font-medium text-white  leading-none">
               {title}
             </h3>
-            <p className="text-xs text-[#BBBBBB] leading-relaxed">
+            <p className="text-xs text-text_light leading-relaxed">
               {description}
             </p>
           </div>

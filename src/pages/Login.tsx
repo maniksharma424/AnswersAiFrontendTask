@@ -12,10 +12,10 @@ const Login: React.FC = () => {
           <h1 className="text-2xl font-bold mb-4 text-white">
             Already Logged In
           </h1>
-          <p className="text-[#BBBBBB] mb-4">
+          <p className="text-text_light mb-4">
             You are already authenticated with a valid token.
           </p>
-          <p className="text-[#BBBBBB] text-sm mb-6 break-all">
+          <p className="text-text_light text-sm mb-6 break-all">
             Token: {token.slice(0, 20)}...
           </p>
         </div>

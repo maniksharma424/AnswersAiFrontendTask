@@ -162,7 +162,7 @@ const LoginForm: React.FC = () => {
           : "Sign Up"}
       </button>
 
-      <div className="my-3 text-center text-[#BBBB] text-xs">or</div>
+      <div className="my-3 text-center text-text_light text-xs">or</div>
 
       <button
         type="button"
@@ -180,7 +180,7 @@ const LoginForm: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsSignInMode(!isSignInMode)}
-          className="text-[#BBBBBB] hover:text-white text-sm"
+          className="text-text_light hover:text-white text-sm"
         >
           {isSignInMode
             ? "Don't have an account? Sign Up"

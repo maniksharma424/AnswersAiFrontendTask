@@ -14,6 +14,7 @@ export default {
         border_secondary: "#C8E972",
         text_primary: "#B3E237",
         text_secondary: "#DCFF7FFD",
+        text_light: "#BBBBBB",
       },
       keyframes: {
         fadeInUp: {
