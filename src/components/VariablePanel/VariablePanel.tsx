@@ -66,7 +66,7 @@ export const VariablePanel: React.FC = () => {
           <Button className="px-4" iconLeft={<AIStars />}>
             Autofill
           </Button>
-          <button className="text-text_primary gradient-border-button flex items-center gap-2 border-[1px] px-4 py-1.5 rounded-md bg-[#CCFF001A]/10 border-text_primary">
+          <button className="text-text_primary gradient-border-button flex items-center gap-2 border-[1px] px-4 py-1.5 rounded-md  border-text_primary bg-[#23291E]  rerun">
             <Rerun /> Rerun
           </button>
         </div>
