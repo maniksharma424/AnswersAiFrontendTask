@@ -2,9 +2,10 @@ import React from "react";
 import { useAuth } from "../hooks/useAuth";
 import LoginForm from "../components/LoginForm";
 import { auth } from "../firebase/firebase";
+import Cookies from "js-cookie";
 
 const Login: React.FC = () => {
-  const { isAuthenticated, token, setIsAuthenticated,setToken } = useAuth();
+  const { isAuthenticated, token, setIsAuthenticated, setToken } = useAuth();
   const handleLogout = async (): Promise<void> => {
     try {
       await auth.signOut();
@@ -29,14 +30,13 @@ const Login: React.FC = () => {
           <p className="text-text_light text-sm mb-6 break-all">
             Token: {token.slice(0, 20)}...
           </p>
+          <button
+            onClick={handleLogout}
+            className="w-full py-3 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 border-border_primary bg-black border text-white"
+          >
+            Log Out
+          </button>
         </div>
-        <button
-          onClick={handleLogout}
-          className="w-full py-3 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 border-border_primary bg-black border text-white"
-        >
-          Log Out
-        </button>
-        ;
       </div>
     );
   }
