@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Home,
   HelpCircle,
@@ -10,23 +10,50 @@ import {
 
 const MobileSidebar = () => {
   const menuItems = [
-    { icon: <Home />, label: "Home", active: false },
-    { icon: <Notifications />, label: "Alerts", active: true },
-    { icon: <CheckList />, label: "Tasks", active: false },
-    { icon: <Cloud />, label: "Cloud", active: false },
-    { icon: <Settings />, label: "Settings", active: false },
+    { icon: <Home />, label: "Home" },
+    { icon: <Notifications />, label: "Alerts" },
+    { icon: <CheckList />, label: "Tasks" },
+    { icon: <Cloud />, label: "Cloud" },
+    { icon: <Settings />, label: "Settings" },
   ];
+
+  const [activeIndex, setActiveIndex] = useState(1);
+  const navRef = useRef<HTMLDivElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({ top: 0, height: 0 });
+
+  useEffect(() => {
+    if (navRef.current) {
+      const buttons = navRef.current.querySelectorAll("button");
+      const activeButton = buttons[activeIndex] as HTMLElement;
+
+      if (activeButton) {
+        setIndicatorStyle({
+          top: activeButton.offsetTop,
+          height: activeButton.offsetHeight,
+        });
+      }
+    }
+  }, [activeIndex]);
 
   return (
     <div className="w-full h-full py-5 z-100 flex flex-col justify-between items-center">
-      <nav className="w-full flex flex-col justify-center items-center space-y-6">
+      <nav
+        ref={navRef}
+        className="w-full relative flex flex-col items-center space-y-6"
+      >
+        {/* Sliding background */}
+        <div
+          className="absolute left-[10%] w-[80%] rounded-lg bg-bg_primary_light border border-border_primary transition-all duration-300 z-0"
+          style={{ top: indicatorStyle.top, height: indicatorStyle.height }}
+        />
+
+        {/* Nav Buttons */}
         {menuItems.map((item, index) => (
           <button
             key={index}
-            className={`w-[80%] flex items-center gap-3 px-3 py-2 text-sm transition-colors duration-200 ${
-              item.active
-                ? "text-white bg-bg_primary_light border border-border_primary rounded-lg"
-                : "text-[#858882] border border-transparent rounded-lg"
+            onClick={() => setActiveIndex(index)}
+            className={`relative z-10 w-[80%] flex items-center gap-3 px-3 py-2 text-sm transition-colors duration-200  active:scale-95 ${
+              activeIndex === index ? "text-white" : "text-[#858882]"
             }`}
           >
             {item.icon}

@@ -15,6 +15,20 @@ export default {
         text_primary: "#B3E237",
         text_secondary: "#DCFF7FFD",
       },
+      keyframes: {
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeOutDown: {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(10px)" },
+        },
+      },
+      animation: {
+        fadeInUp: "fadeInUp 0.3s ease-out forwards",
+        fadeOutDown: "fadeOutDown 0.3s ease-in forwards",
+      },
     },
   },
   plugins: [],

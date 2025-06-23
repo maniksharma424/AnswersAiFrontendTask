@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Search, Burger, CrossSm } from "../../icons/Icons";
 
 import MobileSidebar from "../MobileSidebar";
@@ -6,9 +6,25 @@ import MobileSidebar from "../MobileSidebar";
 const Header: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Charging Stations");
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const tabs = ["Charging Stations", "Fleet Sizing", "Parking"];
+  const navRef = useRef<HTMLDivElement>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    if (navRef.current) {
+      const buttons = navRef.current.querySelectorAll("button");
+      const activeButton = buttons[activeIndex] as HTMLElement;
+
+      if (activeButton) {
+        setIndicatorStyle({
+          left: activeButton.offsetLeft,
+          width: activeButton.offsetWidth,
+        });
+      }
+    }
+  }, [activeIndex]);
 
   return (
     <>
@@ -26,15 +42,28 @@ const Header: React.FC = () => {
             )}
 
             {/* Desktop Nav */}
-            <nav className="md:flex hidden items-center space-x-1 font-robert">
-              {tabs.map((tab) => (
+            <nav
+              ref={navRef}
+              className="md:flex hidden relative items-center space-x-1 font-robert"
+            >
+              {/* Sliding background */}
+              <div
+                className="absolute h-full top-0 rounded-lg bg-bg_primary border border-border_primary transition-all duration-300"
+                style={{
+                  left: indicatorStyle.left,
+                  width: indicatorStyle.width,
+                }}
+              />
+
+              {/* Tab Buttons */}
+              {tabs.map((tab, index) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-lg leading-5 transition-colors duration-200 border ${
-                    activeTab === tab
-                      ? "bg-bg_primary border-border_primary"
-                      : "border-transparent hover:bg-white/10"
+                  onClick={() => setActiveIndex(index)}
+                  className={`relative z-10 px-4 py-2 rounded-lg leading-5 transition-colors duration-200  active:scale-95  ${
+                    activeIndex === index
+                      ? "text-white"
+                      : "text-white/60 hover:text-white"
                   }`}
                 >
                   {tab}

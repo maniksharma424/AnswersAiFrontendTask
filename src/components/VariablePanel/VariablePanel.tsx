@@ -87,15 +87,19 @@ export const VariablePanel: React.FC = () => {
                 </div>
               </div>
             ))}
-            {descriptionToShow && (
-              <div className="bg-bg_primary_light p-5 space-y-3 border-t border-border_primary rounded-b-md">
-                <div className="flex items-center gap-3">
-                  <h1 className="text-white">{selectedVariable?.name}</h1>
-                  <Info />
-                </div>
-                <p className="text-sm text-[#BBBBBB]">{descriptionToShow}</p>
+
+            <div
+              key={descriptionToShow ? "show" : "hide"} // force re-render for animation trigger
+              className={`bg-bg_primary_light p-5 space-y-3 border-t border-border_primary rounded-b-md ${
+                descriptionToShow ? "block animate-fadeInUp" : "hidden animate-fadeOutDown"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <h1 className="text-white">{selectedVariable?.name}</h1>
+                <Info />
               </div>
-            )}
+              <p className="text-sm text-[#BBBBBB]">{descriptionToShow}</p>
+            </div>
           </div>
         </div>
 
@@ -129,7 +133,7 @@ const VariableTag: React.FC<{ variable: Variable }> = ({ variable }) => {
       const timer = setTimeout(() => {
         setShowDescription(true);
         setSelectedVariable(variable);
-      }, 1500);
+      }, 1000);
       setHoverTimer(timer);
     }
   };

@@ -298,12 +298,12 @@ const ChartVisualization: React.FC = () => {
   return (
     <div className=" sm:bg-bg_primary_light sm:rounded-xl sm:border sm:border-border_primary md:p-8 sm:p-4  relative h-full flex flex-col">
       <div className="sm:flex hidden items-center justify-end  relative">
-        <div className=" bg-bg_primary border border-border_primary rounded-md px-2.5 py-1.5 text-xs text-[#FCFCFC] focus:outline-none flex relative bottom-3 right-4  items-center gap-4">
+        <button className=" bg-bg_primary border border-border_primary rounded-md px-2.5 py-2 text-xs text-[#FCFCFC] focus:outline-none flex relative bottom-3 right-4  items-center gap-4">
           Unsatisfied Demand %
-          <button>
+          <span>
             <ChevronDown />
-          </button>
-        </div>
+          </span>
+        </button>
       </div>
 
       <div className="relative flex-1 ">

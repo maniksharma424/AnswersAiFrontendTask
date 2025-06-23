@@ -51,7 +51,7 @@ const Sidebar: React.FC = () => {
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`relative z-10 w-[44px] h-[44px] flex items-center justify-center transition-colors duration-200 ${
+            className={`relative z-10 w-[44px] h-[44px] flex items-center justify-center transition-colors  duration-100 active:scale-95 ${
               activeIndex === index
                 ? "text-white"
                 : "text-[#858882] hover:text-white"
