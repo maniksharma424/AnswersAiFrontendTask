@@ -29,5 +29,5 @@ export const useAuth = () => {
     return () => unsubscribe();
   }, []);
 
-  return { isAuthenticated, token };
+  return { isAuthenticated, token,setIsAuthenticated,setToken };
 };

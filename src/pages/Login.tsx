@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm";
 import { auth } from "../firebase/firebase";
 
 const Login: React.FC = () => {
-  const { isAuthenticated, token } = useAuth();
+  const { isAuthenticated, token, setIsAuthenticated,setToken } = useAuth();
   const handleLogout = async (): Promise<void> => {
     try {
       await auth.signOut();
