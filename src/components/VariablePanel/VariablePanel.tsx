@@ -1,5 +1,6 @@
-import { Variable, useAppContext } from "../../provider/appProvider";
-import { useState } from "react";
+// VariablePanel.tsx
+import { useAppContext } from "../../provider/appProvider";
+import { useEffect, useState } from "react";
 import {
   AIStars,
   AIStarsSm,
@@ -13,8 +14,9 @@ import {
   ButtonShadow,
 } from "../../icons/Icons";
 import Button from "../Button";
+import { Variable } from "../../types";
+import { VARIABLE_CATEGORIES } from "../../constants";
 
-// Main VariablePanel Component
 export const VariablePanel: React.FC = () => {
   const {
     isVariablePanelOpen,
@@ -24,29 +26,15 @@ export const VariablePanel: React.FC = () => {
     setSelectedVariable,
   } = useAppContext();
 
-  const variablesByCategory = variables.reduce((acc, variable) => {
-    if (!acc[variable.category]) {
-      acc[variable.category] = [];
-    }
-    acc[variable.category].push(variable);
-    return acc;
-  }, {} as Record<string, Variable[]>);
+  const categorizedVariables = VARIABLE_CATEGORIES.map((category) => ({
+    category,
+    variables: variables.filter((v) => v.category === category),
+  }));
 
-  const selectedVariableInCategory1 = variables.filter(
-    (v) => v.category === "Variable category 1" && v.selected
-  );
-
-  const selectedVariableInCategory2 = variables.filter(
-    (v) => v.category === "Variable Category 2" && v.selected
-  );
-
-  const selectedVariableInCategory3 = variables.filter(
-    (v) => v.category === "Variable Category 3" && v.selected
-  );
+  const descriptionToShow = selectedVariable?.description || null;
 
   return (
     <>
-      {/* Overlay */}
       <div
         className={`fixed w-full inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300 ${
           isVariablePanelOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -54,117 +42,63 @@ export const VariablePanel: React.FC = () => {
         onClick={toggleVariablePanel}
       />
 
-      {/* Panel */}
       <div
-        className={`fixed w-1/2 top-0 right-0   bg-black border-l border-border_primary z-50 transform transition-transform duration-300 ease-out p-6  flex flex-col h-full space-y-6 ${
+        className={`fixed w-1/2 top-0 right-0 bg-black border-l border-border_primary z-50 transform transition-transform duration-300 ease-out p-6 flex flex-col h-full space-y-6 ${
           isVariablePanelOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between  ">
+        <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-white">Edit Variables</h2>
-          <button
-            onClick={toggleVariablePanel}
-            className="p-2 rounded-lg transition-colors duration-200"
-          >
+          <button onClick={toggleVariablePanel} className="p-2 rounded-lg">
             <Cross />
           </button>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-start gap-2 w-full   ">
-          <div className="flex items-center space-x-4 flex-1 bg-bg_primary  p-2 border-border_primary rounded-md">
+        <div className="flex items-center gap-2 w-full">
+          <div className="flex items-center space-x-4 flex-1 bg-bg_primary p-2 border-border_primary rounded-md">
             <Search />
             <input
               type="text"
               placeholder="Control"
-              className="rounded-lg  text-sm w-full  placeholder:text-white focus:outline-none bg-transparent "
+              className="rounded-lg text-sm w-full placeholder:text-white bg-transparent focus:outline-none"
             />
           </div>
-          <Button className=" px-4" iconLeft={<AIStars />}>
+          <Button className="px-4" iconLeft={<AIStars />}>
             Autofill
           </Button>
-          <button className=" text-text_primary gradient-border-button flex items-center gap-2 border-[1px]  px-4 py-1.5 rounded-md bg-[#CCFF001A]/10  border-text_primary ">
-            <Rerun />
-            Rerun
+          <button className="text-text_primary gradient-border-button flex items-center gap-2 border-[1px] px-4 py-1.5 rounded-md bg-[#CCFF001A]/10 border-text_primary">
+            <Rerun /> Rerun
           </button>
         </div>
 
-        {/* Content */}
-        <div className="overflow-y-auto  space-y-10 bg-bg_primary  border border-border_primary h-fit rounded-md ">
-          {/* Variable Categories */}
-          <div className="space-y-6 pt-6">
-            <div className="px-6">
-              <h3 className="text-sm font-light text-[#D5D5D5]  mb-3">
-                Variable category 1
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {selectedVariableInCategory1.map((variable) => (
-                  <VariableTag
-                    key={variable.id}
-                    variable={variable}
-                    onHover={setSelectedVariable}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="px-6">
-              <h3 className="text-sm font-light text-[#D5D5D5]  mb-3">
-                Variable Category 2
-              </h3>
-              <div className="flex flex-wrap gap-2 mb-3">
-                {selectedVariableInCategory2.map((variable) => (
-                  <VariableTag
-                    key={variable.id}
-                    variable={variable}
-                    onHover={setSelectedVariable}
-                  />
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {variablesByCategory["Variable Category 2"]
-                  ?.filter((v) => !v.selected)
-                  .map((variable) => (
-                    <VariableTag
-                      key={variable.id}
-                      variable={variable}
-                      onHover={setSelectedVariable}
-                    />
+        <div className="space-y-10 bg-bg_primary border border-border_primary h-fit rounded-md">
+          <div
+            className={`space-y-6 pt-6 ${descriptionToShow ? "pb-0" : "pb-6"}`}
+          >
+            {categorizedVariables.map(({ category, variables }) => (
+              <div className="px-6" key={category}>
+                <h3 className="text-sm font-light text-[#D5D5D5] mb-3">
+                  {category}
+                </h3>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {variables.map((variable) => (
+                    <VariableTag key={variable.id} variable={variable} />
                   ))}
+                </div>
               </div>
-            </div>
-
-            <div className="px-6">
-              <h3 className="text-sm font-light text-[#D5D5D5]  mb-3">
-                Variable Category 3
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {variablesByCategory["Variable Category 3"]?.map((variable) => (
-                  <VariableTag
-                    key={variable.id}
-                    variable={variable}
-                    onHover={setSelectedVariable}
-                  />
-                ))}
+            ))}
+            {descriptionToShow && (
+              <div className="bg-bg_primary_light p-5 space-y-3 border-t border-border_primary rounded-b-md">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-white">{selectedVariable?.name}</h1>
+                  <Info />
+                </div>
+                <p className="text-sm text-[#BBBBBB]">{descriptionToShow}</p>
               </div>
-            </div>
-            <div className=" bg-bg_primary_light p-5 space-y-3  border-t border-border_primary">
-              <div className=" flex items-center gap-3">
-                <h1 className=" text-white">Co2 Distrobution</h1>
-                <Info />
-              </div>
-              <p className=" text-sm font-normal text-[#BBBBBB]">
-                But what truly sets Switch apart is its versatility. It can be
-                used as a scooter, a bike, or even a skateboard, making it
-                suitable for people of all ages. Whether you're a student, a
-                professional, or a senior citizen, Switch adapts to your needs
-                and lifestyle.
-              </p>
-            </div>
+            )}
           </div>
         </div>
-        {/* Expandable Sections */}
+
         <div className="space-y-4">
           <VariableSection title="Primary Variables" />
           <VariableSection title="Secondary Variables" />
@@ -174,33 +108,72 @@ export const VariablePanel: React.FC = () => {
   );
 };
 
-// VariableTag Component
-const VariableTag: React.FC<{
-  variable: Variable;
-  onHover: (variable: Variable | null) => void;
-}> = ({ variable, onHover }) => {
-  const { updateVariable } = useAppContext();
+const VariableTag: React.FC<{ variable: Variable }> = ({ variable }) => {
+  const { updateVariable, setSelectedVariable } = useAppContext();
+  const [showDescription, setShowDescription] = useState(false);
+  const [hoverTimer, setHoverTimer] = useState<number | null>(null);
+  const [hideTimer, setHideTimer] = useState<number | null>(null);
 
   const handleClick = () => {
     updateVariable(variable.id, { selected: !variable.selected });
   };
 
+  const handleMouseEnter = () => {
+    // Clear any existing hide timer
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      setHideTimer(null);
+    }
+
+    if (variable.description && !showDescription) {
+      const timer = setTimeout(() => {
+        setShowDescription(true);
+        setSelectedVariable(variable);
+      }, 1500);
+      setHoverTimer(timer);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Clear hover timer if still waiting
+    if (hoverTimer) {
+      clearTimeout(hoverTimer);
+      setHoverTimer(null);
+    }
+
+    // Set hide timer if description is showing
+    if (showDescription) {
+      const timer = setTimeout(() => {
+        setShowDescription(false);
+        setSelectedVariable(null);
+      }, 2000);
+      setHideTimer(timer);
+    }
+  };
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimer) clearTimeout(hoverTimer);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
+  }, [hoverTimer, hideTimer]);
   return (
     <button
-      className={`px-3 py-1.5 rounded-full text-xs font-light transition-all duration-200 border flex items-center gap-1.5 relative group ${
+      className={`px-3 py-1.5 rounded-full text-xs font-light border flex items-center gap-1.5 group relative ${
         variable.selected
-          ? "bg-[#CCFF001A]/10 text-text_primary  border-text_primary"
-          : "  bg-bg_primary_light text-[#D5D5D5]   border-border_primary hover:text-white"
+          ? "bg-[#CCFF001A]/10 text-text_primary border-text_primary"
+          : "bg-bg_primary_light text-[#D5D5D5] border-border_primary hover:text-white"
       }`}
       onClick={handleClick}
-      onMouseEnter={() => onHover(variable)}
-      onMouseLeave={() => onHover(null)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {variable.name}
       <AIStarsSm />
-      {variable?.selected ? <Check /> : <PlusSm />}
-      {variable?.selected && (
-        <span className=" absolute -bottom-3 left-0 group-hover:visible invisible">
+      {variable.selected ? <Check /> : <PlusSm />}
+      {variable.selected && (
+        <span className="absolute -bottom-3 left-0 group-hover:visible invisible">
           <ButtonShadow />
         </span>
       )}
@@ -208,7 +181,6 @@ const VariableTag: React.FC<{
   );
 };
 
-// VariableSection Component
 const VariableSection: React.FC<{ title: string }> = ({ title }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -216,12 +188,12 @@ const VariableSection: React.FC<{ title: string }> = ({ title }) => {
     <div className="border border-border_primary rounded-md bg-bg_primary_light text-text_secondary">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between p-4 text-left  transition-colors duration-200"
+        className="w-full flex items-center justify-between py-2 px-5 text-left"
       >
-        <span className="text-lg font-normal ">{title}</span>
-        <button className=" rotate-180 border border-text_primary rounded-[20px] py-1 px-3">
+        <span className="text-md font-normal">{title}</span>
+        <span className="rotate-180 border border-text_primary rounded-[20px] py-0.5 px-2">
           <Chevrron />
-        </button>
+        </span>
       </button>
     </div>
   );

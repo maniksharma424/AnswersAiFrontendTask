@@ -6,7 +6,8 @@ import "../src/assets/fonts/fonts.css";
 
 import Dashboard from "./pages/Dashboard";
 import { VariablePanel } from "./components/VariablePanel/VariablePanel";
-import { AppProvider } from "./provider/appProvider";
+import AppProvider from "./provider/appProvider";
+
 
 function App() {
   return (
