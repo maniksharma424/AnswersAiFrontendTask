@@ -1,4 +1,3 @@
-// VariablePanel.tsx
 import { useAppContext } from "../../provider/appProvider";
 import { useEffect, useState } from "react";
 import {

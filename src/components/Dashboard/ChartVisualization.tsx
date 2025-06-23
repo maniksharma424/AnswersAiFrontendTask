@@ -311,12 +311,25 @@ const ChartVisualization: React.FC = () => {
 
         {hoveredDataPoint && tooltipPosition && (
           <div
-            className="absolute bg-bg_primary_light backdrop-blur-sm border  border-border_primary rounded-lg sm:p-4 p-2 shadow-xl z-10 transition-opacity duration-200 min-w-fit sm:space-y-3 space-y-1"
+            className="absolute bg-bg_primary_light backdrop-blur-sm border border-border_primary rounded-lg sm:p-4 p-2 shadow-xl z-10 transition-opacity duration-200 min-w-fit sm:space-y-3 space-y-1"
             style={{
-              left: isMpbile ? tooltipPosition.x - 80 : tooltipPosition.x - 100,
-              top: isMpbile ? tooltipPosition.y - 80 : tooltipPosition.y - 120,
+              left: isMpbile
+                ? tooltipPosition.x + 160 >
+                  canvasRef.current?.getBoundingClientRect().width!
+                  ? tooltipPosition.x - 160
+                  : tooltipPosition.x
+                : tooltipPosition.x + 120 >
+                  canvasRef.current?.getBoundingClientRect().width!
+                ? tooltipPosition.x - 200
+                : tooltipPosition.x - 100,
+              top: isMpbile
+                ? tooltipPosition.y - 80 < 0
+                  ? tooltipPosition.y + 20
+                  : tooltipPosition.y - 80
+                : tooltipPosition.y - 120,
 
               pointerEvents: "none",
+              position: "absolute",
             }}
           >
             <div className="sm:text-2xl text-base sm:font-bold font-normal text-white mb-1 flex justify-between items-center">

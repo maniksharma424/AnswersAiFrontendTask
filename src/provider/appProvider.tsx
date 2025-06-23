@@ -8,7 +8,6 @@ import React, {
 import { DataPoint, Variable } from "../types";
 import { generateChartData, initialVariables } from "../constants";
 
-// Types
 
 interface AppContextType {
   isVariablePanelOpen: boolean;

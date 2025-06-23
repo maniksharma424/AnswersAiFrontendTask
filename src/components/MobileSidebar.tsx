@@ -52,7 +52,7 @@ const MobileSidebar = () => {
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`relative z-10 w-[80%] flex items-center gap-3 px-3 py-2 text-sm transition-colors duration-200  active:scale-95 ${
+            className={`relative z-10 w-[80%] flex items-center gap-3 px-3 py-2 text-sm transition-colors duration-200   ${
               activeIndex === index ? "text-white" : "text-[#858882]"
             }`}
           >
