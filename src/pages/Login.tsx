@@ -1,9 +1,20 @@
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
 import LoginForm from "../components/LoginForm";
+import { auth } from "../firebase/firebase";
 
 const Login: React.FC = () => {
   const { isAuthenticated, token } = useAuth();
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await auth.signOut();
+      Cookies.remove("auth_token");
+      setIsAuthenticated(false);
+      setToken(null);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   if (isAuthenticated && token) {
     return (
@@ -19,6 +30,13 @@ const Login: React.FC = () => {
             Token: {token.slice(0, 20)}...
           </p>
         </div>
+        <button
+          onClick={handleLogout}
+          className="w-full py-3 px-4 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 border-border_primary bg-black border text-white"
+        >
+          Log Out
+        </button>
+        ;
       </div>
     );
   }
